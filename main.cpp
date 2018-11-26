@@ -67,11 +67,11 @@ int main(void)
 
 	glEnableVertexAttribArray(attrib_pos);
 
-	double heading = 7.0, pitch = 7.0;
+	double heading = 0.0, pitch = 0.0;
 
 	while (!glfwWindowShouldClose(window.window)) {
-		pitch += .00003;
-		heading -= .00003;
+		pitch += .00007;
+		heading -= .00007;
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glfwPollEvents();
