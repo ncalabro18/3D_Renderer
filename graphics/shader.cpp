@@ -2,21 +2,26 @@
 
 
 
-Shader::Shader(const char* fileV, const char * fileF)
+
+
+Shader::Shader(const GLchar *vertex_src, const GLchar *fragment_src)
 {
 	
 
 	vertex = glCreateShader(GL_VERTEX_SHADER);
-	const GLchar* src= getSource(fileV).c_str();
-	glShaderSource(vertex, 1, &src, nullptr);
+	glShaderSource(vertex, 1, &vertex_src, nullptr);
 	glCompileShader(vertex);
 	
-
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
-	src = getSource(fileF).c_str();
-	glShaderSource(fragment, 1, &src, nullptr);
+	glShaderSource(fragment, 1, &fragment_src, nullptr);
 	glCompileShader(fragment);
-	
+
+	printf("GL_TRUE: %d\n", GL_TRUE);
+	GLint status;
+	glGetShaderiv(vertex, GL_COMPILE_STATUS, &status);
+	printf("Vertex Status: %d\n", status);
+	glGetShaderiv(fragment, GL_COMPILE_STATUS, &status);
+	printf("Fragment Status: %d\n", status);
 
 	program = glCreateProgram();
 	glAttachShader(program, vertex);
@@ -37,25 +42,4 @@ Shader::~Shader()
 
 void Shader::bind() {
 	glUseProgram(program);
-}
-
-
-std::string Shader::getSource(const char* filePath) 
-{
-	FILE *srcFile = fopen(filePath, "r");
-	if (srcFile == NULL) {
-		printf("Failed to open file %s\n", filePath);
-		return nullptr;
-	}
-	unsigned int fileSize = fseek(srcFile,0, SEEK_END);
-	GLchar *fileData = new char[fileSize + 1];
-	memset(fileData, 0, fileSize + 1);
-	fseek(srcFile, 0, SEEK_SET);
-	fread(fileData, 1, fileSize, srcFile);
-
-	fclose(srcFile);
-
-	std::string src(fileData);
-	delete[] fileData;
-	return src;
 }

@@ -12,9 +12,7 @@ public:
 private:
 	GLuint vertex, fragment;
 public:
-	Shader(const char * fileV, const char *fileF);
+	Shader(const GLchar * fileV, const GLchar *fileF);
 	~Shader();
 	void bind();
-private:
-	std::string getSource(const char *filePath);
 };
